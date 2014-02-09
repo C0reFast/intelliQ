@@ -18,4 +18,4 @@ def extract(page_content):
     p('script').remove()
     p('style').remove()
     pags = p.text().split(' ')
-    return '\n'.join(filter(lambda x: len(x) > 76, pags))
+    return '\n'.join([x for x in pags if len(x) > 76])
