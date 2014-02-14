@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="example" version="1.5">
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="text_space" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+	            <!-- 索引时候的分词器 -->
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            </analyzer>
+            <analyzer type="query">
+	            <!-- 查询时候的分词器 -->
+                <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            </analyzer>
+        </fieldType>
+
+        <fieldType name="text_mmseg_complex" class="solr.TextField" >
+            <analyzer>
+                <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="complex" />
+            </analyzer>
+        </fieldType>
+	    <fieldType name="text_mmseg_maxword" class="solr.TextField" >
+            <analyzer>
+                <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="max-word" />
+        </analyzer>
+        </fieldType>
+	    <fieldType name="text_mmseg_simple" class="solr.TextField" >
+            <analyzer>
+                <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" />
+            </analyzer>
+        </fieldType>
+    </types>
+
+    <fields>
+        <field name="url" type="string" indexed="true" stored="true" multiValued="false" required="true" />
+        <field name="company_id" type="int" indexed="true" stored="false" multiValued="false" required="true" />
+        <field name="title" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
+        <field name="content" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
+        <field name="text" type="text_mmseg_simple" indexed="true" stored="false" multiValued="true" />
+        <field name="_version_" type="long" indexed="true" stored="true"/>
+    </fields>
+
+    <copyField source="title" dest="text" />
+    <copyField source="content" dest="text" />
+
+    <uniqueKey>url</uniqueKey>
+
+    <defaultSearchField>text</defaultSearchField>
+
+    <solrQueryParser defaultOperator="AND"/>
+</schema>
