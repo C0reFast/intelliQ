@@ -2,22 +2,36 @@
 #-*- coding:utf-8 -*-
 
 import re
-import pysolr
 from urlparse import urlsplit
-import spider
 from pyquery import PyQuery as pq
-import helpers
+from common import Link
+import spider
 import analyzer
+import urlset
+
+
+def get_links(host, page_content):
+    """@todo: Docstring for get_links.
+
+    :host: @todo
+    :page_content: @todo
+    :returns: @todo
+
+    """
+    p = pq(page_content)
+    p.make_links_absolute()
+    links = []
+    for a in p('a'):
+        url = urlsplit(a.attrib['href'])
+        if url.netloc == host:
+            links.append(Link(host=url.netloc, path=url.path, text=a.text))
+    return links
 
 
 def parser(url, page_content):
     """docstring for page_parser"""
-    p = pq(page_content)
-    p
+    pass
 
 
-
-# keyword = '%28Keyword_C%3D%E9%94%82%E7%94%B5%E6%B1%A0%2BTitle_\
-#        C%3D%E9%94%82%E7%94%B5%E6%B1%A0%29'
-# sp = VipPaperUrlSpider(company_id=1, keyword=keyword)
-# sp.crawl([Request(url=sp.SUB_URL % (sp.keyword, 1, sp.keyword), parser=sp.seed_parser)])
+if __name__ == '__main__':
+    pass
