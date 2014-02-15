@@ -10,20 +10,22 @@ import analyzer
 import urlset
 
 
-def get_links(host, page_content):
+def get_links(url, page_content):
     """@todo: Docstring for get_links.
 
-    :host: @todo
+    :url: @todo
     :page_content: @todo
     :returns: @todo
 
     """
+    host = urlsplit(url).netloc
     p = pq(page_content)
-    p.make_links_absolute()
+    p.make_links_absolute(url)
     links = []
     for a in p('a'):
-        url = urlsplit(a.attrib['href'])
-        if url.netloc == host:
+        href = a.attrib['href']
+        url = urlsplit(href)
+        if url.netloc == host and not urlset.has_url(host, href):
             links.append(Link(host=url.netloc, path=url.path, text=a.text))
     return links
 
