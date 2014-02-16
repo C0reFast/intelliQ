@@ -25,8 +25,8 @@ def get_links(url, page_content):
     for a in p('a'):
         href = a.attrib['href']
         url = urlsplit(href)
-        if url.netloc == host and not urlset.has_url(host, href):
-            links.append(Link(host=url.netloc, path=url.path, text=a.text))
+        if url.netloc == host and not urlset.has_url(host, url.path):
+            links.append(Link(url=href, text=a.text))
     return links
 
 

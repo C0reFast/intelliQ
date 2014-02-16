@@ -3,6 +3,7 @@
 
 """ Common Definitions
 """
+import collections
 import requests
 
 
@@ -78,43 +79,4 @@ class Paper(object):
         if company_id not in self._company_ids:
             self._company_ids.append(company_id)
 
-
-class Link(object):
-
-    """Docstring for Link. """
-
-    def __init__(self, host, path, text):
-        """@todo: to be defined1.
-
-        :host: @todo
-        :path: @todo
-        :text: @todo
-
-        """
-        self._host = host
-        self._path = path
-        self._text = text
-
-    @property
-    def url(self):
-        """@todo: Docstring for url.
-        :returns: @todo
-
-        """
-        return self._host, self._path
-
-    @property
-    def host(self):
-        """@todo: Docstring for host.
-        :returns: @todo
-
-        """
-        return self._host
-
-    @property
-    def text(self):
-        """@todo: Docstring for text.
-        :returns: @todo
-
-        """
-        return self._text
+Link = collections.namedtuple('Link', 'url text')
