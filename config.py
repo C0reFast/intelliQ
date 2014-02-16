@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-"""Configurations of the whole project"""
+"""配置文件"""
 
 
 db_host = 'localhost'       # 数据库地址

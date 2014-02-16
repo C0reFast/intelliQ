@@ -11,11 +11,11 @@ r = redis.StrictRedis(host=config.redis_host,
 
 
 def has_url(set_name, url):
-    """@todo: Docstring for has_url.
+    """查找集合中是否存在Url，存在返回True，不存在添加并返回False
 
-    :set_name: @todo
-    :url: @todo
-    :returns: @todo
+    :set_name: 集合名称
+    :url: @todo要检测的Url
+    :returns: True或者False
 
     """
     m = hashlib.md5()

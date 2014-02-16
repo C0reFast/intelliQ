@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-""" Common Definitions
+""" 基本定义
 """
 import collections
 import requests
@@ -28,20 +28,20 @@ def monkey_patch_requests():
 
 class Paper(object):
 
-    """Paper Entity.
+    """ Paper 实体类
     """
 
     def __init__(self, paper_id, company_ids, path, title, author, abstract, keywords, paper_class):
-        """@todo: to be defined1.
+        """ Paper类构造函数
 
-        :paper_id: id of a paper
-        :company_ids: conpanies of a paper
-        :path: path of a paper
-        :title: title of a paper
-        :author: author of a paper
-        :abstract: @todo
-        :keywords: @todo
-        :paper_class: @todo
+        :paper_id: 论文Id
+        :company_ids: 论文属于的公司
+        :path: 论文的网页路径
+        :title: 论文标题
+        :author: 论文作者
+        :abstract: 论文摘要
+        :keywords: 论文关键词
+        :paper_class: 论文分类
 
         """
         self._paper_id = paper_id
@@ -55,8 +55,9 @@ class Paper(object):
 
     @property
     def solr_doc(self):
-        """solr_doc.
-        :returns: A dict contains paper info.
+        """获取Solr文档字典
+
+        :returns: 一个包含论文信息的字典
 
         """
         doc = {}
@@ -71,12 +72,13 @@ class Paper(object):
         return doc
 
     def add_company(self, company_id):
-        """@todo: Docstring for add_company.
+        """添加一个公司
 
-        :company_id: compand_id to add
+        :company_id: 需要添加的公司Id
 
         """
         if company_id not in self._company_ids:
             self._company_ids.append(company_id)
 
+# 网页链接定义
 Link = collections.namedtuple('Link', 'url text')

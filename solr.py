@@ -9,20 +9,19 @@ solr_paper = pysolr.Solr(config.solr_url_paper)
 
 
 def add_paper(paper):
-    """@todo: Docstring for add_paper.
+    """添加一篇论文到Solr
 
-    :paper: @todo
-    :returns: @todo
+    :paper: 要添加的论文
 
     """
     solr_paper.add([paper.solr_doc])
 
 
 def find_paper(paper_id):
-    """@todo: Docstring for find_paper.
+    """根据论文Id查找论文
 
-    :paper_id: @todo
-    :returns: @todo
+    :paper_id: 需要查找的论文Id
+    :returns: 论文实体或者None
 
     """
     result = solr_paper.search('id:{paper_id}'.format(paper_id=paper_id))
