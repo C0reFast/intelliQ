@@ -7,6 +7,7 @@ from pyquery import PyQuery as pq
 from common import Paper
 import spider
 import solr
+import traceback
 
 
 PAPER_PATH_RE = re.compile('href="(/qk/.+?.html)"')
@@ -28,14 +29,15 @@ def page_parser(url, page_content):
             paper_id = PAPER_ID_RE.search(path).group(1)
             paper = solr.find_paper(paper_id)
             if paper:
-                paper.add_company(company_id)
-                solr.add_paper(paper)
+                if paper.add_company(company_id):
+                    solr.add_paper(paper)
                 print PAPER_ID_RE.search(path).group(1), 'old'
             else:
                 spider.queue.put(spider.Request(url=PAPER_URL % (path),
                                                 parser=content_parser))
         except Exception:
             print 'err', path
+            traceback.print_exc()
 
 
 def seed_parser(url, page_content):

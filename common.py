@@ -75,10 +75,12 @@ class Paper(object):
         """添加一个公司
 
         :company_id: 需要添加的公司Id
-
+        :returns: 若Id已存在，返回False，否则返回True
         """
         if company_id not in self._company_ids:
             self._company_ids.append(company_id)
+            return True
+        return False
 
 # 网页链接定义
 Link = collections.namedtuple('Link', 'url text')

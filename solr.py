@@ -30,8 +30,8 @@ def find_paper(paper_id):
                      company_ids=result.docs[0]['company_id'],
                      path=result.docs[0]['path'],
                      title=result.docs[0]['title'],
-                     author=result.docs[0]['author'],
-                     abstract=result.docs[0]['abstract'],
-                     keywords=result.docs[0]['keywords'],
+                     author=result.docs[0].get('author', []),
+                     abstract=result.docs[0].get('abstract', ''),
+                     keywords=result.docs[0].get('keywords', []),
                      paper_class=result.docs[0]['class'])
     return None
