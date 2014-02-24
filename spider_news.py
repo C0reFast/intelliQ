@@ -10,7 +10,7 @@ import analyzer
 import urlset
 
 
-keywords = u'船,CNG'
+keywords = u'船'
 
 
 def get_links(url, page_content):
