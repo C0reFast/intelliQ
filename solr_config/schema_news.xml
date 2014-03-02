@@ -4,6 +4,7 @@
         <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
         <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
         <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
         <fieldType name="text_space" class="solr.TextField" positionIncrementGap="100">
             <analyzer type="index">
 	            <!-- 索引时候的分词器 -->
@@ -37,6 +38,7 @@
         <field name="company_id" type="int" indexed="true" stored="false" multiValued="false" required="true" />
         <field name="title" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="content" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
+        <field name="update_time" type="date" indexed="true" stored="true" multiValued="false" />
         <field name="text" type="text_mmseg_simple" indexed="true" stored="false" multiValued="true" />
         <field name="_version_" type="long" indexed="true" stored="true"/>
     </fields>
