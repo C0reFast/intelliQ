@@ -2,6 +2,7 @@
 #-*- coding:utf-8 -*-
 
 import re
+import time
 from urlparse import urlsplit
 from pyquery import PyQuery as pq
 from common import Paper
@@ -57,7 +58,8 @@ def content_parser(url, page_content):
                   author=(p('.author a').text() or '').split(),
                   abstract=p('.abstrack').remove('strong').text() or '',
                   keywords=(p('.keywords a').text() or '').split(),
-                  paper_class=p('#wxClass').attr.value or 'null'
+                  paper_class=p('#wxClass').attr.value or 'null',
+                  update_time=time.strftime('%Y-%m-%dT%XZ')
                   )
     try:
         solr.add_paper(paper)

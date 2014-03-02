@@ -33,5 +33,6 @@ def find_paper(paper_id):
                      author=result.docs[0].get('author', []),
                      abstract=result.docs[0].get('abstract', ''),
                      keywords=result.docs[0].get('keywords', []),
-                     paper_class=result.docs[0]['class'])
+                     paper_class=result.docs[0]['class'],
+                     update_time=result.docs[0]['update_time'])
     return None

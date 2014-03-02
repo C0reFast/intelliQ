@@ -31,7 +31,8 @@ class Paper(object):
     """ Paper 实体类
     """
 
-    def __init__(self, paper_id, company_ids, path, title, author, abstract, keywords, paper_class):
+    def __init__(self, paper_id, company_ids, path, title, author,
+                 abstract, keywords, paper_class, update_time):
         """ Paper类构造函数
 
         :paper_id: 论文Id
@@ -42,6 +43,7 @@ class Paper(object):
         :abstract: 论文摘要
         :keywords: 论文关键词
         :paper_class: 论文分类
+        :update_time: 论文更新时间
 
         """
         self._paper_id = paper_id
@@ -52,6 +54,7 @@ class Paper(object):
         self._abstract = abstract
         self._keywords = keywords
         self._paper_class = paper_class
+        self._update_time = update_time
 
     @property
     def solr_doc(self):
@@ -69,6 +72,7 @@ class Paper(object):
         doc['keywords'] = self._keywords
         doc['class'] = self._paper_class
         doc['company_id'] = self._company_ids
+        doc['update_time'] = self._update_time
         return doc
 
     def add_company(self, company_id):
