@@ -3,6 +3,7 @@
 
 import re
 import time
+import urllib2
 from urlparse import urlsplit
 from pyquery import PyQuery as pq
 from common import Paper
@@ -18,7 +19,8 @@ SUB_URL = ('http://lib.cqvip.com/zk/search.aspx?E=%s&M=&P=%d'
            '&CP=&CC=&LC=&H=%s&Entry=M&S=1&SJ=&ZJ=&GC=&Type=')
 PAPER_URL = 'http://lib.cqvip.com%s'
 PAPER_ID_RE = re.compile('/(\d+)\.html')
-keyword = '%28Keyword_C%3D%E6%98%8E%E7%9F%BE%2BTitle_C%3D%E6%98%8E%E7%9F%BE%29'
+keyword = u'(Keyword_C=明矾+Title_C=明矾)'
+keyword = urllib2.quote(keyword.encode('utf-8'))
 company_id = 1
 
 
