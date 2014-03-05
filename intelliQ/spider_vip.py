@@ -21,7 +21,6 @@ PAPER_URL = 'http://lib.cqvip.com%s'
 PAPER_ID_RE = re.compile('/(\d+)\.html')
 keyword = u'(Keyword_C=明矾+Title_C=明矾)'
 keyword = urllib2.quote(keyword.encode('utf-8'))
-company_id = 1
 
 
 def page_parser(url, page_content):
@@ -32,8 +31,6 @@ def page_parser(url, page_content):
             paper_id = PAPER_ID_RE.search(path).group(1)
             paper = solr.find_paper(paper_id)
             if paper:
-                if paper.add_company(company_id):
-                    solr.add_paper(paper)
                 print PAPER_ID_RE.search(path).group(1), 'old'
             else:
                 spider.queue.put(spider.Request(url=PAPER_URL % (path),
@@ -54,7 +51,6 @@ def content_parser(url, page_content):
     """docstring for content_parser"""
     p = pq(page_content)
     paper = Paper(paper_id=PAPER_ID_RE.search(url).group(1),
-                  company_ids=[company_id],
                   path=urlsplit(url).path,
                   title=p('h1').text() or 'null',
                   author=(p('.author a').text() or '').split(),
@@ -70,6 +66,6 @@ def content_parser(url, page_content):
         'err adding', paper._path
 
 if __name__ == '__main__':
-    seed = spider.Request(url=SUB_URL % (keyword, company_id, keyword), parser=seed_parser)
+    seed = spider.Request(url=SUB_URL % (keyword, 1, keyword), parser=seed_parser)
     spider.queue.put(seed)
     spider.crawl()

@@ -31,12 +31,11 @@ class Paper(object):
     """ Paper 实体类
     """
 
-    def __init__(self, paper_id, company_ids, path, title, author,
+    def __init__(self, paper_id, path, title, author,
                  abstract, keywords, paper_class, update_time):
         """ Paper类构造函数
 
         :paper_id: 论文Id
-        :company_ids: 论文属于的公司
         :path: 论文的网页路径
         :title: 论文标题
         :author: 论文作者
@@ -47,7 +46,6 @@ class Paper(object):
 
         """
         self._paper_id = paper_id
-        self._company_ids = company_ids
         self._path = path
         self._title = title
         self._author = author
@@ -71,20 +69,8 @@ class Paper(object):
         doc['abstract'] = self._abstract
         doc['keywords'] = self._keywords
         doc['class'] = self._paper_class
-        doc['company_id'] = self._company_ids
         doc['update_time'] = self._update_time
         return doc
-
-    def add_company(self, company_id):
-        """添加一个公司
-
-        :company_id: 需要添加的公司Id
-        :returns: 若Id已存在，返回False，否则返回True
-        """
-        if company_id not in self._company_ids:
-            self._company_ids.append(company_id)
-            return True
-        return False
 
 # 网页链接定义
 Link = collections.namedtuple('Link', 'url text')
