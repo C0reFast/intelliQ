@@ -35,7 +35,6 @@
 
     <fields>
         <field name="url" type="string" indexed="true" stored="true" multiValued="false" required="true" />
-        <field name="company_id" type="int" indexed="true" stored="false" multiValued="false" required="true" />
         <field name="title" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="content" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="update_time" type="date" indexed="true" stored="true" multiValued="false" />

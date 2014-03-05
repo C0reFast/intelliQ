@@ -35,7 +35,6 @@
 
     <fields>
         <field name="id" type="long" indexed="true" stored="true" multiValued="false" required="true" />
-        <field name="company_id" type="int" indexed="true" stored="true" multiValued="true" required="true" />
         <field name="path" type="string" indexed="false" stored="true" multiValued="false" required="true" />
         <field name="title" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="author" type="text_space" indexed="true" stored="true" multiValued="true" />
