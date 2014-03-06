@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import hashlib
 import redis
 import config
 
@@ -18,10 +17,8 @@ def has_url(set_name, url):
     :returns: True或者False
 
     """
-    m = hashlib.md5()
-    m.update(url)
-    if r.sismember(set_name, m.hexdigest()):
+    if r.sismember(set_name, url):
         return True
     else:
-        r.sadd(set_name, m.hexdigest())
+        r.sadd(set_name, url)
         return False
