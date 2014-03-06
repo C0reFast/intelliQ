@@ -40,7 +40,7 @@
         <field name="author" type="text_space" indexed="true" stored="true" multiValued="true" />
         <field name="abstract" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="keywords" type="string" indexed="true" stored="true" multiValued="true" />
-        <field name="class" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
+        <field name="classification" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="update_time" type="date" indexed="true" stored="true" multiValued="false" />
         <field name="text" type="text_mmseg_simple" indexed="true" stored="false" multiValued="true" />
         <field name="_version_" type="long" indexed="true" stored="true"/>
