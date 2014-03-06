@@ -5,6 +5,7 @@
 """
 import collections
 import requests
+from splinter import Browser
 
 
 def monkey_patch_requests():
@@ -26,51 +27,29 @@ def monkey_patch_requests():
     requests.models.Response.content = property(content)
 
 
-class Paper(object):
+def get_links(url):
+    """@todo: Docstring for get_links.
 
-    """ Paper 实体类
+    :url: @todo
+    :returns: @todo
+
     """
-
-    def __init__(self, paper_id, path, title, author,
-                 abstract, keywords, paper_class, update_time):
-        """ Paper类构造函数
-
-        :paper_id: 论文Id
-        :path: 论文的网页路径
-        :title: 论文标题
-        :author: 论文作者
-        :abstract: 论文摘要
-        :keywords: 论文关键词
-        :paper_class: 论文分类
-        :update_time: 论文更新时间
-
-        """
-        self._paper_id = paper_id
-        self._path = path
-        self._title = title
-        self._author = author
-        self._abstract = abstract
-        self._keywords = keywords
-        self._paper_class = paper_class
-        self._update_time = update_time
-
-    @property
-    def solr_doc(self):
-        """获取Solr文档字典
-
-        :returns: 一个包含论文信息的字典
-
-        """
-        doc = {}
-        doc['id'] = self._paper_id
-        doc['path'] = self._path
-        doc['title'] = self._title
-        doc['author'] = self._author
-        doc['abstract'] = self._abstract
-        doc['keywords'] = self._keywords
-        doc['class'] = self._paper_class
-        doc['update_time'] = self._update_time
-        return doc
+    browser = Browser("phantomjs")
+    browser.visit(url)
+    link_list = browser.find_by_xpath('//a[@href]')
+    result = []
+    for link in link_list:
+        try:
+            if len(link.text) > 10:
+                result.append(Link(link.__getitem__('href'), link.text))
+        except:
+            pass
+    return result
 
 # 网页链接定义
-Link = collections.namedtuple('Link', 'url text')
+Link = collections.namedtuple('Link', 'url title')
+# 论文定义
+Paper = collections.namedtuple('Paper',
+                               'id path title author abstract keywords classification update_time')
+# 新闻定义
+News = collections.namedtuple('News', 'url title content update_time')
