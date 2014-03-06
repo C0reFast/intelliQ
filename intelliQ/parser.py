@@ -56,6 +56,7 @@ def paper_parser(url):
                                     keywords=(p('.keywords a').text() or '').split(),
                                     classification=p('#wxClass').attr.value or 'null',
                                     update_time=time.strftime('%Y-%m-%dT%XZ')))
+            print path, 'new'    # @todo logs
     try:
         solr.add('paper', paper_list)
     except:
@@ -74,7 +75,6 @@ def news_parser(url):
                                          update_time=time.strftime('%Y-%m-%dT%XZ')))
             print 'content', link.url
     solr.add('news', news_list)
-    return []
 
 if __name__ == '__main__':
     pass
