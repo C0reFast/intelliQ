@@ -48,7 +48,7 @@ def paper_parser(url):
             print path, 'old'    # @todo logs
         else:
             p = pq(PAPER_URL.format(path=path))
-            paper_list.append(Paper(id=PAPER_ID_RE.search(url).group(1),
+            paper_list.append(Paper(id=PAPER_ID_RE.search(path).group(1),
                                     path=urlsplit(url).path,
                                     title=p('h1').text() or 'null',
                                     author=(p('.author a').text() or '').split(),

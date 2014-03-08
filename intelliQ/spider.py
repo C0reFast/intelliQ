@@ -4,7 +4,6 @@
 
 import Queue
 import threading
-import traceback
 
 
 class Request(object):
@@ -40,9 +39,9 @@ class Spider(object):
             req = self._queue.get()
             try:
                 req.parse()
-            except Exception:
-                traceback.print_stack()
+            except Exception as e:
                 self._queue.put(req)
+                print e
             finally:
                 self._queue.task_done()
 
