@@ -13,5 +13,5 @@ redis_host = 'localhost'    # Redis地址
 redis_port = 6379           # Redis端口
 redis_db = 0                # Redis数据库编号
 
-solr_url_paper = 'http://localhost:8983/solr/vip_papers/'   # Solr论文库地址
+solr_url_paper = 'http://localhost:8983/solr/papers/'   # Solr论文库地址
 solr_url_news = 'http://localhost:8983/solr/news/'   # Solr新闻库地址
