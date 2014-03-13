@@ -55,7 +55,7 @@ def paper_parser(url):
                                     abstract=p('.abstrack').remove('strong').text() or '',
                                     keywords=(p('.keywords a').text() or '').split(),
                                     classification=p('#wxClass').attr.value or 'null',
-                                    update_time=time.strftime('%Y-%m-%dT%XZ')))
+                                    update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
             print path, 'new'    # @todo logs
     try:
         solr.add('paper', paper_list)
@@ -72,7 +72,7 @@ def news_parser(url):
             news_list.append(common.News(url=link.url,
                                          title=link.title,
                                          content=extract(requests.get(link.url).text),
-                                         update_time=time.strftime('%Y-%m-%dT%XZ')))
+                                         update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
             print 'content', link.url
     solr.add('news', news_list)
 
