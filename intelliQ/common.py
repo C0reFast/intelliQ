@@ -5,6 +5,7 @@
 """
 import collections
 import requests
+import chardet
 from splinter import Browser
 
 
@@ -20,7 +21,7 @@ def monkey_patch_requests():
             if encodings:
                 self.encoding = encodings[0]
             else:
-                self.encoding = self.apparent_encoding
+                self.encoding = chardet.detect(_content)['encoding']
         return _content
     requests.models.Response.content = property(content)
 
