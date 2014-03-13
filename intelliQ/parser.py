@@ -8,7 +8,7 @@ import requests
 from urlparse import urlsplit
 from pyquery import PyQuery as pq
 import common
-from common import Paper
+from common import Paper, News
 from spider import Request
 import solr
 import urlset
@@ -69,12 +69,18 @@ def news_parser(url):
     news_list = []
     for link in links:
         if not urlset.has_url('news', link.url):
-            news_list.append(common.News(url=link.url,
-                                         title=link.title,
-                                         content=extract(requests.get(link.url).text),
-                                         update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
+            try:
+                news_list.append(News(url=link.url,
+                                 title=link.title,
+                                 content=extract(requests.get(link.url).text),
+                                 update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
+            except:
+                print 'error adding', link.url
             print 'content', link.url
-    solr.add('news', news_list)
+    try:
+        solr.add('news', news_list)
+    except:
+        print 'error adding news'
 
 if __name__ == '__main__':
     pass
