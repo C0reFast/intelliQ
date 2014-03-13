@@ -5,7 +5,6 @@ import re
 import time
 import urllib2
 import requests
-from urlparse import urlsplit
 from pyquery import PyQuery as pq
 import common
 from common import Paper, News
@@ -49,7 +48,7 @@ def paper_parser(url):
         else:
             p = pq(PAPER_URL.format(path=path))
             paper_list.append(Paper(id=PAPER_ID_RE.search(path).group(1),
-                                    path=urlsplit(url).path,
+                                    path=path,
                                     title=p('h1').text() or 'null',
                                     author=(p('.author a').text() or '').split(),
                                     abstract=p('.abstrack').remove('strong').text() or '',
