@@ -39,6 +39,7 @@
         <field name="content" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="update_time" type="date" indexed="true" stored="true" multiValued="false" />
         <field name="text" type="text_mmseg_simple" indexed="true" stored="false" multiValued="true" />
+        <field name="category" type="string" indexed="true" stored="true" multiValued="false" />
         <field name="_version_" type="long" indexed="true" stored="true"/>
     </fields>
 
