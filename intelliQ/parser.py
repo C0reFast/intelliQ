@@ -66,7 +66,7 @@ def news_parser(url):
     """新闻解析器，从指定Url中获取新闻存入Solr"""
     links = common.get_links(url)
     news_list = []
-    for link in links:
+    for link in reversed(links):
         if not urlset.has_url('news', link.url):
             try:
                 news_list.append(News(url=link.url,
