@@ -44,7 +44,8 @@ def paper_parser(url):
     paper_list = []
     for path in paths:
         if urlset.has_url('paper', path):
-            print path, 'old'    # @todo logs
+            pass
+            #print path, 'old'    # @todo logs
         else:
             p = pq(PAPER_URL.format(path=path))
             paper_list.append(Paper(id=PAPER_ID_RE.search(path).group(1),
@@ -54,6 +55,7 @@ def paper_parser(url):
                                     abstract=p('.abstrack').remove('strong').text() or '',
                                     keywords=(p('.keywords a').text() or '').split(),
                                     classification=p('#wxClass').attr.value or 'null',
+                                    category=u'默认',
                                     update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
             print path, 'new'    # @todo logs
     try:
@@ -72,6 +74,7 @@ def news_parser(url):
                 news_list.append(News(url=link.url,
                                  title=link.title,
                                  content=extract(requests.get(link.url).text),
+                                 category=u'默认',
                                  update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime())))
             except:
                 print 'error adding', link.url

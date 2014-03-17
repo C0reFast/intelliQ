@@ -50,6 +50,7 @@ def get_links(url):
 Link = collections.namedtuple('Link', 'url title')
 # 论文定义
 Paper = collections.namedtuple('Paper',
-                               'id path title author abstract keywords classification update_time')
+                               'id path title author abstract keywords\
+                                classification category update_time')
 # 新闻定义
-News = collections.namedtuple('News', 'url title content update_time')
+News = collections.namedtuple('News', 'url title content category update_time')
