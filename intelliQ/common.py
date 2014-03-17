@@ -33,7 +33,7 @@ def get_links(url):
     :returns: @todo
 
     """
-    browser = Browser("phantomjs")
+    browser = Browser("phantomjs", load_images=False, wait_time=10)
     browser.visit(url)
     link_list = browser.find_by_xpath('//a[@href]')
     result = []
