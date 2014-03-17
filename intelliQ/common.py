@@ -33,17 +33,18 @@ def get_links(url):
     :returns: @todo
 
     """
-    browser = Browser("phantomjs", load_images=False, wait_time=10)
-    browser.visit(url)
-    link_list = browser.find_by_xpath('//a[@href]')
-    result = []
-    for link in link_list:
-        try:
-            if len(link.text) > 10:
-                result.append(Link(link.__getitem__('href'), link.text))
-        except:
-            pass
-    return result
+    with Browser("phantomjs", load_images=False, wait_time=10) as browser:
+        browser.visit(url)
+        browser.is_element_present_by_tag('a', wait_time=6)
+        link_list = browser.find_by_xpath('//a[@href]')
+        result = []
+        for link in link_list:
+            try:
+                if len(link.text) > 10:
+                    result.append(Link(link.__getitem__('href'), link.text))
+            except:
+                pass
+        return result
 
 # 网页链接定义
 Link = collections.namedtuple('Link', 'url title')
