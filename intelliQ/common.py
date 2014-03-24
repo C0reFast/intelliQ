@@ -54,3 +54,6 @@ Paper = collections.namedtuple('Paper',
                                 classification category update_time')
 # 新闻定义
 News = collections.namedtuple('News', 'url title content category update_time')
+# 专利定义
+Patent = collections.namedtuple('Patent', 'id path title abstract inventor\
+                                           applicant category update_time')
