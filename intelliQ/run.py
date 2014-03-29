@@ -11,7 +11,7 @@ if __name__ == '__main__':
     spider_paper = Spider('paper')
     spider_news = Spider('news')
     search_exp = u'(Keyword_C=数据挖掘+Title_C=数据挖掘)'
-    reqs = parser.page_parser(search_exp)
+    reqs = parser.paper_page_parser(search_exp)
     for req in reqs:
         spider_paper.add_request(req)
     spider_news.add_request(Request(url='http://roll.tech.sina.com.cn/s/channel.php#col=96',
