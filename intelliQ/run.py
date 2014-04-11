@@ -1,22 +1,41 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-
+import sys
+import MySQLdb
 from spider import Spider
 from spider import Request
 import parser
+import config
 
+arg_config = {'paper': 'paper_search_exp',
+              'patent': 'patent_search_exp',
+              'news': 'news_seed_url'}
 
 if __name__ == '__main__':
-    spider_paper = Spider('paper')
-    spider_news = Spider('news')
-    search_exp = u'(Keyword_C=数据挖掘+Title_C=数据挖掘)'
-    reqs = parser.paper_page_parser(search_exp)
-    for req in reqs:
-        spider_paper.add_request(req)
-    spider_news.add_request(Request(url='http://roll.tech.sina.com.cn/s/channel.php#col=96',
+    if not len(sys.argv) == 2:
+        print 'usage: run.py corename'
+        sys.exit(0)
+    conn = MySQLdb.connect(host=config.db_host,
+                           user=config.db_user,
+                           passwd=config.db_password,
+                           db=config.db_database,
+                           charset='utf8')
+    cursor = conn.cursor()
+    cursor.execute('select configValue from t_spider_config where configKey=%s',
+                   (arg_config.get(sys.argv[1]),))
+    config_values = [row[0] for row in cursor.fetchall()]
+    if sys.argv[1] == 'paper':
+        spider_paper = Spider('paper')
+        for search_exp in config_values:
+            reqs = parser.paper_page_parser(search_exp)
+            for req in reqs:
+                spider_paper.add_request(req)
+        spider_paper.crawl()
+
+    if sys.argv[1] == 'news':
+        spider_news = Spider('news')
+        for seed_url in config_values:
+            spider_news.add_request(Request(url=seed_url,
                                     parser=parser.news_parser))
-    spider_news.add_request(Request(url='http://jtt.zj.gov.cn/col/col16/index.html',
-                                    parser=parser.news_parser))
-    spider_news.crawl()
-    spider_paper.crawl()
+        spider_news.crawl()
