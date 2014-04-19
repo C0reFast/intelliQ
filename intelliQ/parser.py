@@ -6,6 +6,7 @@ import time
 import urllib2
 import requests
 from pyquery import PyQuery as pq
+from splinter import Browser
 import common
 from common import Paper, News, Patent
 from spider import Request
@@ -21,17 +22,9 @@ PAPER_ID_RE = re.compile('/(\d+)\.html')
 NUM_RE = re.compile('search_jg2">(\d+)')
 PAPER_ID_RE = re.compile('/(\d+)\.html')
 
-PATENT_CATEGORY_RE = re.compile('/IPC/Code/(.+?)')
-PATENT_PATH_RE = re.compile('/Patent/\d+\?lx=\w+')
-PATENT_ID_RE = re.compile('/Patent/(\d+)')
-PATENT_COUNT_RE = re.compile('ttl="(\d+)"')
-
 PAPER_SEARCH_URL = ('http://lib.cqvip.com/zk/search.aspx?E={search_exp}&M=&P={page}'
                     '&CP=&CC=&LC=&H={search_exp}&Entry=M&S=1&SJ=&ZJ=&GC=&Type=')
 PAPER_URL = 'http://lib.cqvip.com{path}'
-PATENT_SEARCH_URL = ('http://www.soopat.com/Home/Result?SearchWord={search_key}'
-                     '&FMSQ=Y&PatentIndex={index}&View=7')
-PATENT_URL = 'http://www.soopat.com{path}'
 
 
 def paper_page_parser(search_exp):
@@ -41,7 +34,7 @@ def paper_page_parser(search_exp):
     page_count = int(NUM_RE.search(page_content).group(1)) / 20 + 2
     result = []
     for i in xrange(1, page_count):
-        result.append(Request(url=PAPER_SEARCH_URL.format(search_exp=search_exp, page=i),
+        result.append(Request(arg=PAPER_SEARCH_URL.format(search_exp=search_exp, page=i),
                               parser=paper_parser))
     return result
 
@@ -94,49 +87,44 @@ def news_parser(url):
         print 'error adding news'
 
 
-def patent_page_parser(search_key):
-    """@todo: Docstring for patent_page_parser.
-    """
-    search_key = urllib2.quote(search_key.encode('utf-8'))
-    page_content = requests.get(PATENT_SEARCH_URL.format(search_key=search_key, index=0)).text
-    count = int(PATENT_COUNT_RE.search(page_content).group(1))
-    print count
-    result = []
-    for index in [30 * x for x in range(count / 30 + 1)]:
-        result.append(Request(url=PATENT_SEARCH_URL.format(search_key=search_key, index=index),
-                              parser=patent_parser))
-    return result
-
-
-def patent_parser(url):
+def patent_parser(search_exp):
     """@todo: Docstring for patent_parser.
     """
-    page_content = requests.get(url).text
-    paths = PATENT_PATH_RE.findall(page_content)
     patent_list = []
-    for path in paths:
-        if urlset.has_url('patent', path):
-            pass
-            #print path, 'old'    # @todo logs
+    b = Browser("phantomjs")
+    b.visit('http://www.pss-system.gov.cn/sipopublicsearch/search/searchHome-searchIndex.shtml')
+    b.fill('searchInfo', search_exp)
+    b.click_link_by_text(u'检索')
+    b.is_element_not_present_by_css('.s_c_conter', wait_time=8)
+    for _ in xrange(10):
+        item_list = b.find_by_css('.s_c_conter')
+        for item in item_list:
+            info_list = item.find_by_tag('td')
+            if not urlset.has_url('patent', info_list[0].text[6:]):
+                try:
+                    patent = Patent(id=info_list[0].text[6:],
+                                    path='~',
+                                    title=info_list[4].text[6:],
+                                    abstract='~',
+                                    inventor=info_list[7].text[5:].split(';')[:-1],
+                                    applicant=info_list[6].text[10:].split(';')[:-1],
+                                    category=info_list[5].text[8:].split('; '),
+                                    update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime()))
+                    patent_list.append(patent)
+                    print patent.id, 'new'    # @todo logs
+                except:
+                    print 'error patent'
+        if b.is_text_present(u'下一页'):
+            b.click_link_by_text(u'下一页')
+            b.is_element_not_present_by_css('.s_c_conter', wait_time=8)
         else:
-            try:
-                p = pq(PATENT_URL.format(path=path))
-                patent = Patent(id=PATENT_ID_RE.search(path).group(1),
-                                path=path,
-                                title=p('h1').text().split()[0],
-                                abstract=p('.datainfo td').eq(0).remove('b').text(),
-                                inventor=p('.datainfo td').eq(3).remove('b').text().split(),
-                                applicant=p('.datainfo td').eq(1).remove('b').text(),
-                                category=p('.datainfo td').eq(5).remove('b').text().split(),
-                                update_time=time.strftime('%Y-%m-%dT%XZ', time.gmtime()))
-                patent_list.append(patent)
-                print path, 'new'    # @todo logs
-            except:
-                print p.text()
+            break
     try:
         solr.add('patent', patent_list)
     except:
         'err adding patent'
+    finally:
+        b.quit()
 
 
 if __name__ == '__main__':

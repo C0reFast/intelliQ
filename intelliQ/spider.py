@@ -7,15 +7,15 @@ import threading
 
 
 class Request(object):
-    def __init__(self, url, parser, retries=3):
-        self._url = url
+    def __init__(self, arg, parser, retries=3):
+        self._arg = arg
         self._parser = parser
         self._retries = retries
 
     def parse(self):
         if self._retries > 0:
             self._retries -= 1
-            self._parser(self._url)
+            self._parser(self._arg)
 
 
 class Spider(object):

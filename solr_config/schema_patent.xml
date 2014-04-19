@@ -39,7 +39,7 @@
         <field name="title" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="abstract" type="text_mmseg_simple" indexed="true" stored="true" multiValued="false" />
         <field name="inventor" type="string" indexed="true" stored="true" multiValued="true" required="true" />
-        <field name="applicant" type="string" indexed="true" stored="true" multiValued="false" required="true" />
+        <field name="applicant" type="string" indexed="true" stored="true" multiValued="true" required="true" />
         <field name="update_time" type="date" indexed="true" stored="true" multiValued="false" />
         <field name="text" type="text_mmseg_simple" indexed="true" stored="false" multiValued="true" />
         <field name="category" type="string" indexed="true" stored="true" multiValued="true" />

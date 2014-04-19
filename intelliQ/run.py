@@ -36,6 +36,13 @@ if __name__ == '__main__':
     if sys.argv[1] == 'news':
         spider_news = Spider('news')
         for seed_url in config_values:
-            spider_news.add_request(Request(url=seed_url,
+            spider_news.add_request(Request(arg=seed_url,
                                     parser=parser.news_parser))
+        spider_news.crawl()
+
+    if sys.argv[1] == 'patent':
+        spider_patent = Spider('patent')
+        for search_exp in config_values:
+            spider_news.add_request(Request(arg=search_exp,
+                                    parser=parser.patent_parser))
         spider_news.crawl()
