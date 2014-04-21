@@ -28,7 +28,7 @@ if __name__ == '__main__':
     if sys.argv[1] == 'paper':
         spider_paper = Spider('paper')
         for search_exp in config_values:
-            reqs = parser.paper_page_parser(search_exp)
+            reqs = parser.paper_page_parser(search_exp)[:500]
             for req in reqs:
                 spider_paper.add_request(req)
         spider_paper.crawl()
