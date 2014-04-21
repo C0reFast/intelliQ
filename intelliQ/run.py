@@ -43,6 +43,6 @@ if __name__ == '__main__':
     if sys.argv[1] == 'patent':
         spider_patent = Spider('patent')
         for search_exp in config_values:
-            spider_news.add_request(Request(arg=search_exp,
-                                    parser=parser.patent_parser))
-        spider_news.crawl()
+            spider_patent.add_request(Request(arg=search_exp,
+                                      parser=parser.patent_parser))
+        spider_patent.crawl()
