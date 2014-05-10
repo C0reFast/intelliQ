@@ -92,6 +92,7 @@ def patent_parser(search_exp):
     """
     patent_list = []
     b = Browser("phantomjs")
+    b.reload()
     b.visit('http://www.pss-system.gov.cn/sipopublicsearch/search/searchHome-searchIndex.shtml')
     b.fill('searchInfo', search_exp)
     b.click_link_by_text(u'检索')
